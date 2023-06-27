@@ -2,33 +2,22 @@ var express = require('express');
 var passport = require('passport');
 var LocalStrategy = require('passport-local');
 var crypto = require('crypto');
+var fs = require('fs');
 
 //Mostly based on https://github.com/passport/todos-express-password
 
-const users = [
-  {
-    id: 1, username: "FJ", password: "FJ1"
-  }
-]
+const users = JSON.parse(fs.readFileSync('./users.json'))
 
 passport.use(new LocalStrategy(function verify(username, password, cb) {
-  const user = users.find((user) => user.username === username)
+    const user = users.find((user) => user.username === username)
 
-  if (user.username === username)
-    return cb(null, user);
-
-  db.get('SELECT * FROM users WHERE username = ?', [ username ], function(err, row) {
-    if (err) { return cb(err); }
-    if (!row) { return cb(null, false, { message: 'Incorrect username or password.' }); }
-    
-    crypto.pbkdf2(password, row.salt, 310000, 32, 'sha256', function(err, hashedPassword) {
-      if (err) { return cb(err); }
-      if (!crypto.timingSafeEqual(row.hashed_password, hashedPassword)) {
-        return cb(null, false, { message: 'Incorrect username or password.' });
-      }
-      return cb(null, row);
-    });
-  });
+    if (user == null) {
+        return cb(null, false);
+    } else if (user.username === username && user.password === password) {
+        return cb(null, user);
+    } else {
+        return cb(null, false);
+    }
 }));
 
 

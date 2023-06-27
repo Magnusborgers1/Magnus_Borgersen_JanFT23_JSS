@@ -12,12 +12,19 @@
 <body class="position-relative" data-bs-spy="scroll">
   <%- include('./partials/navbar.ejs') %>
     <section class="container">
+      <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search...">
+        <button id="searchButton">Search</button>
+        <button type="button" id="resetBtn" class="btn btn-secondary">Reset</button>
+      </div>
       <table class="table" id="table">
         <thead>
           <tr>
             <th scope="col">Name</th>
             <th scope="col">Image</th>
-            <th scope="col"></th>
+            <% if (auth){ %>
+              <th scope="col"></th>
+              <% } %>
           </tr>
         </thead>
         <tbody>
@@ -28,8 +35,9 @@
               <td><img src="<%= meme.url %>" alt="Meme Image" height="20%" width="20%"></td>
               
               <td>
-                
-                <input type="button" class="btn" action="/meme" onclick="openMemeDetails(<%= meme.id %>)" value="Details" />
+                <% if (auth){ %>
+                  <input type="button" class="btn" action="/meme" onclick="openMemeDetails(<%= meme.id %>)" value="Details" />
+                  <% } %>
 
 
                 <!-- <input type="button" class="btn" 

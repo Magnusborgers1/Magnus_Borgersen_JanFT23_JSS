@@ -6,13 +6,15 @@ var logger = require('morgan');
 var session = require('express-session');
 var passport = require('passport');
 var JsonStore = require('express-session-json')(session);
-var indexRouter = require('./routes/index');
-var authRouter = require('./routes/auth');
-var memesRouter = require('./routes/memes');
 var fs = require('fs');
 var https = require('https');
 
-// var highlightsRouter = require('./routes/highlights');
+var indexRouter = require('./routes/index');
+var authRouter = require('./routes/auth');
+var memesRouter = require('./routes/memes');
+var memeRouter = require('./routes/meme');
+
+var config = JSON.parse(fs.readFileSync('./config.json'));
 
 // var app = express();
 var app = module.exports = express();
@@ -41,7 +43,7 @@ app.use(session({
 
 }));
 
-https.get('https://api.imgflip.com/get_memes', (res) => {
+https.get(config.MEMES_URL, (res) => {
   let data = '';
   res.on('data', chunk => {
     data += chunk;
@@ -58,6 +60,7 @@ app.use(passport.authenticate('session'));
 app.use('/', indexRouter);
 app.use('/', authRouter);
 app.use('/', memesRouter);
+app.use('/', memeRouter);
 // app.use('/highlights', highlightsRouter);
 
 // catch 404 and forward to error handler
