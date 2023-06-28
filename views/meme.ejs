@@ -12,9 +12,31 @@
   <%- include('./partials/navbar.ejs') %>
     <section class="container">
 
-
-      <div><%= meme.id %></div>
-
+      <table class="table" id="table">
+        <thead>
+          <tr>
+            <th scope="col"> ID</th>
+            <th scope="col"> Name</th>
+            <th scope="col"> URL</th>
+            <th scope="col"> Width</th>
+            <th scope="col"> Height</th>
+            <th scope="col"> Captions</th>
+            <th scope="col"> Box Count</th>
+            </tr>
+        </thead>
+        <tbody>
+          <tr>
+      <td><%= meme.id %></td>
+      <td><%= meme.name %></td>
+      <td><%= meme.url %></td>
+      <td><%= meme.width %></td>
+      <td><%= meme.height %></td>
+      <td><%= meme.captions %></td>
+      <td><%= meme.box_count %></td>
+      </tr>
+      </tbody>
+      </table>
+      <img src="<%= meme.url %>"/>
 
     </section>
 
