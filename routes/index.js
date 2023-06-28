@@ -5,7 +5,7 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
   res.render('index', {
     auth: req.isAuthenticated(),
-    user: req.user?.username
+    user: req.user?.username ?? 'Guest'
   });
 });
 

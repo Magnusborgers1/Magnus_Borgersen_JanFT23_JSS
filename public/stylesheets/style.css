@@ -10,3 +10,11 @@ a {
 .search-container {
   margin: 5px;
 }
+
+td {
+  background-color: inherit !important;
+}
+
+.visited-color {
+  background-color: #b7bec5;
+}

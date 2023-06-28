@@ -2,13 +2,8 @@ function open_new_window(location) {
   window.location.href = location;
 }
 
-function openMeme(id) {
-  let ss = 2;
-  console.log("test" + id)
-}
-
-
-function openMemeDetails(memeId) {
+//Wasn't able to navigate using a POST request
+// function openMemeDetails(memeId) {
   // Perform the redirection to the "/meme" page
   // fetch('/meme', {
   //   method: 'POST',
@@ -16,8 +11,8 @@ function openMemeDetails(memeId) {
   //     memeId
   //   }
   // });
-   window.location.href = "/meme?id=" + memeId;
-}
+  //  window.location.href = "/meme?id=" + memeId;
+// }
 
 //search functionality 
 function searchMemes() {

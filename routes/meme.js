@@ -1,23 +1,33 @@
 var express = require('express');
 var router = express.Router();
-// const { resolve } = require('path');
 const axios = require('axios');
-var fs = require('fs');
+var session = require('express-session');
 
 router.get('/meme', function (req, res, next) {
     let auth = req.isAuthenticated();
-    let memesFile = fs.readFileSync('public/memes.json');
-    let memes = JSON.parse(memesFile).data.memes;
+    if (req.session.visited == null) {
+        req.session.visited = "";
+    } 
+    if (!req.session.visited.includes(req.query.id)) {
+        req.session.visited += req.query.id + ';'
+    }
+    let memes = JSON.parse(session.Store.memes).data.memes;
     let memeId = req.query.id;
     const meme = memes.find((meme) => meme.id === memeId)
 
     if (auth) {
-        res.render('meme', {auth, meme})
+        res.render('meme', {
+            auth, 
+            meme,    
+            user: req.user?.username ?? 'Guest'
+        })
     } else {
         res.redirect('/')
     }
 });
 
+
+//Wasn't able to navigate using a POST request
 // router.post('/meme', function (req, res, next) {
 //     let memes = JSON.parse(fs.readFileSync('./memes.json')).data.memes;
 //     // let selectedMeme = memes.SELECT(x => x.id = req.memeId);
@@ -29,4 +39,3 @@ router.get('/meme', function (req, res, next) {
 // })
 
 module.exports = router;
-//181913649

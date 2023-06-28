@@ -26,7 +26,6 @@ app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-// app.use(cookieParser("keyboard cat"));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(__dirname + '/node_modules/bootstrap/dist'));
@@ -37,7 +36,6 @@ app.use(session({
   secret: 'keyboard cat',
   resave: true, // don't save session if unmodified
   saveUninitialized: false, // don't create session until something stored
-  // store: new SQLiteStore({ db: 'sessions.db', dir: './var/db' })
   store: new JsonStore(),
   cookie: { maxAge: oneDay },
 
@@ -49,9 +47,7 @@ https.get(config.MEMES_URL, (res) => {
     data += chunk;
   });  
   res.on('end', () => {
-    // app.memes = data;
-    // process.stdout.write(d);
-    fs.writeFileSync("public/memes.json", data);
+    session.Store.memes = data;
   }); 
 });
 
@@ -61,7 +57,6 @@ app.use('/', indexRouter);
 app.use('/', authRouter);
 app.use('/', memesRouter);
 app.use('/', memeRouter);
-// app.use('/highlights', highlightsRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
